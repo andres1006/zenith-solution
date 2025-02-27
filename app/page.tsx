@@ -1,96 +1,89 @@
-import { FC } from "react";
-import Header from "./components/layout/Header";
-import Footer from "./components/layout/Footer";
-import HeroSection from "./components/sections/HeroSection";
-import LogosSection from "./components/sections/LogosSection";
-import ServicesSection from "./components/sections/ServicesSection";
-import PortfolioSection from "./components/sections/PortfolioSection";
-import AboutSection from "./components/sections/AboutSection";
-import TestimonialsSection from "./components/sections/TestimonialsSection";
-import CtaSection from "./components/sections/CtaSection";
-import ContactSection from "./components/sections/ContactSection";
-import ScrollToTop from "@/components/scroll-to-top";
-import {
-  HERO_DATA,
-  LOGOS_DATA,
-  SERVICES_DATA,
-  PORTFOLIO_DATA,
-  ABOUT_DATA,
-  TESTIMONIALS_DATA,
-  CTA_DATA,
-  CONTACT_DATA,
-} from "./constants/page-data";
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { ArrowRight, CheckCircle } from "lucide-react"
+import Link from "next/link"
 
-const Home: FC = () => {
+export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
+    <div className="container mx-auto px-4 py-12">
+      <div className="flex flex-col items-center text-center mb-12">
+        <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4">Zenith Solution</h1>
+        <p className="text-xl text-muted-foreground max-w-[700px] mb-8">
+          Soluciones empresariales modernas para optimizar tus procesos de negocio
+        </p>
+        <div className="flex flex-wrap gap-4 justify-center">
+          <Button asChild size="lg">
+            <Link href="/servicios">
+              Nuestros Servicios <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
+          <Button variant="outline" size="lg" asChild>
+            <Link href="/contacto">Contactar</Link>
+          </Button>
+        </div>
+      </div>
 
-      <main className="flex-1">
-        <HeroSection
-          title={HERO_DATA.title}
-          description={HERO_DATA.description}
-          primaryCta={HERO_DATA.primaryCta}
-          secondaryCta={HERO_DATA.secondaryCta}
-          imageSrc={HERO_DATA.imageSrc}
-          imageAlt={HERO_DATA.imageAlt}
-        />
-
-        <LogosSection title={LOGOS_DATA.title} logos={LOGOS_DATA.logos} />
-
-        <ServicesSection
-          badge={SERVICES_DATA.badge}
-          title={SERVICES_DATA.title}
-          description={SERVICES_DATA.description}
-          services={SERVICES_DATA.services}
-        />
-
-        <PortfolioSection
-          badge={PORTFOLIO_DATA.badge}
-          title={PORTFOLIO_DATA.title}
-          description={PORTFOLIO_DATA.description}
-          projects={PORTFOLIO_DATA.projects}
-          ctaText={PORTFOLIO_DATA.ctaText}
-        />
-
-        <AboutSection
-          badge={ABOUT_DATA.badge}
-          title={ABOUT_DATA.title}
-          description={ABOUT_DATA.description}
-          features={ABOUT_DATA.features}
-          ctaText={ABOUT_DATA.ctaText}
-          ctaLink={ABOUT_DATA.ctaLink}
-          imageSrc={ABOUT_DATA.imageSrc}
-          imageAlt={ABOUT_DATA.imageAlt}
-        />
-
-        <TestimonialsSection
-          badge={TESTIMONIALS_DATA.badge}
-          title={TESTIMONIALS_DATA.title}
-          description={TESTIMONIALS_DATA.description}
-          testimonials={TESTIMONIALS_DATA.testimonials}
-        />
-
-        <CtaSection
-          title={CTA_DATA.title}
-          description={CTA_DATA.description}
-          buttonText={CTA_DATA.buttonText}
-          buttonLink={CTA_DATA.buttonLink}
-        />
-
-        <ContactSection
-          badge={CONTACT_DATA.badge}
-          title={CONTACT_DATA.title}
-          description={CONTACT_DATA.description}
-          contactInfo={CONTACT_DATA.contactInfo}
-        />
-      </main>
-
-      <Footer />
-
-      <ScrollToTop />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+        {features.map((feature) => (
+          <Card key={feature.title} className="border-border">
+            <CardHeader>
+              <feature.icon className="h-10 w-10 text-primary mb-2" />
+              <CardTitle>{feature.title}</CardTitle>
+              <CardDescription>{feature.description}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-2">
+                {feature.benefits.map((benefit) => (
+                  <li key={benefit} className="flex items-start">
+                    <CheckCircle className="h-5 w-5 text-primary mr-2 shrink-0" />
+                    <span>{benefit}</span>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+            <CardFooter>
+              <Button variant="outline" className="w-full" asChild>
+                <Link href={feature.link}>Saber más</Link>
+              </Button>
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+const features = [
+  {
+    title: "Desarrollo Web",
+    description: "Creamos sitios web modernos y optimizados",
+    icon: CheckCircle,
+    benefits: ["Diseño responsive", "Optimización SEO", "Rendimiento excepcional", "Experiencia de usuario intuitiva"],
+    link: "/servicios/desarrollo-web",
+  },
+  {
+    title: "Consultoría IT",
+    description: "Asesoramiento experto para tu negocio",
+    icon: CheckCircle,
+    benefits: [
+      "Análisis de infraestructura",
+      "Optimización de procesos",
+      "Estrategias de transformación digital",
+      "Soluciones personalizadas",
+    ],
+    link: "/servicios/consultoria",
+  },
+  {
+    title: "Soporte Técnico",
+    description: "Asistencia continua para tus sistemas",
+    icon: CheckCircle,
+    benefits: [
+      "Disponibilidad 24/7",
+      "Resolución rápida de problemas",
+      "Mantenimiento preventivo",
+      "Actualizaciones de seguridad",
+    ],
+    link: "/servicios/soporte",
+  },
+]
+
